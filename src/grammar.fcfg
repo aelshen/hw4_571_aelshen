@@ -1,0 +1,70 @@
+% start S
+#######################
+# Grammar Productions #
+#######################
+S[-INV] -> NP[AGR=?a] VP[AGR=?a] PUNC
+S[-INV] -> WHNP S[+INV]/NP PUNC
+S[-INV]/NP -> NP[AGR=?a] VP[AGR=?a]/NP
+S[+INV] -> V[+AUX] NP[AGR=?a] VP[AGR=?a] PUNC
+S[+INV]/NP -> V[+AUX, AGR=?a] NP[AGR=?a] VP[TENSE=pres]/NP
+
+CP -> COMP NP[AGR=?a] VP[AGR=?a]
+CP/NP -> COMP S[-INV]/NP | S[-INV]/NP 
+
+NP[AGR=?a] -> DET[AGR=?a] N[AGR=?a] | N[AGR=[NUM=pl]] | N[+MASS]
+NP -> NP[MOD=?m] PP[MOD=?m]
+
+VP[TENSE=?t, AGR=?a] -> V[SUBCAT=itv, -AUX, TENSE=?t, AGR=?a]
+VP[TENSE=?t, AGR=?a, MOD=?m] -> V[SUBCAT=stv, -AUX, TENSE=?t, AGR=?a, COMP=np, MOD=?m] NP | V[SUBCAT=stv, -AUX, TENSE=?t, AGR=?a, COMP=cp] CP |  V[SUBCAT=stv, -AUX, TENSE=past, COMP=ap] AP
+VP[TENSE=?t, AGR=?a] -> V[SUBCAT=dtv, -AUX, TENSE=?t, AGR=?a] NP PP
+
+VP/NP -> V[SUBCAT=stv, -AUX, COMP=np]
+VP/NP -> V[SUBCAT=stv, -AUX, COMP=cp] CP/NP
+VP/NP -> V[SUBCAT=dtv, -AUX] PP 
+
+VP[MOD=?m] -> VP[MOD=?m] PP[MOD=?m]
+
+PP[MOD=?m] -> P[MOD=?m] NP | P[MOD=?m] AP
+AP -> Adj | Adj N
+
+#######################
+# Lexical Productions #
+#######################
+DET[AGR=[PER=3]] -> 'the' 
+
+N[AGR=[NUM='sg', PER=3], -MASS] -> 'dog' | 'farmer' | 'book' | 'shelf' | 'cart' | 'summit' 
+N[AGR=[NUM='sg', PER=3], +MASS] -> 'sand' | 'Tuesday' 
+N[AGR=[NUM='pl', PER=3], -MASS] -> 'dogs' | 'cats' | 'minutes'
+N[AGR=[NUM='sg', PER=3, GEN='m']] -> 'John'
+N[AGR=[NUM='sg', PER=3, GEN='f']] -> 'Mary'
+N[AGR=[NUM='sg', PER=3, GEN='m'], +REFL] -> 'himself'
+N[AGR=[NUM='sg', PER=3, GEN='f'], +REFL] -> 'herself'
+
+WHNP -> 'what'
+
+V[SUBCAT=itv, -AUX, TENSE=pres, AGR=[NUM='sg', PER=3]] -> 'barks' | 'does' | 'knows'
+V[SUBCAT=itv, -AUX, TENSE=pres, AGR=[NUM='pl', PER=3]] -> 'bark'
+V[SUBCAT=itv, -AUX, TENSE=past] -> 'walked'
+
+V[SUBCAT=stv, -AUX, TENSE=past, COMP=np] -> 'saw' | 'was' | 'loaded' | 'know'
+V[SUBCAT=stv, -AUX, TENSE=past, COMP=np, MOD='on'] -> 'reached'
+V[SUBCAT=stv, -AUX, TENSE=past, COMP=np, MOD='with'] -> 'filled'
+V[SUBCAT=stv, -AUX, TENSE=past, COMP=ap] -> 'was'
+V[SUBCAT=stv, -AUX, TENSE=pres, COMP=cp] -> 'think'
+V[SUBCAT=stv, -AUX, TENSE=past, COMP=cp] -> 'thought'
+
+V[SUBCAT=dtv, -AUX, TENSE=past] -> 'put' 
+
+V[TENSE=past, AGR=[PER=3], +AUX] -> 'did'
+V[TENSE=pres, AGR=[PER=3], +AUX] -> 'does'
+
+COMP -> 'that'
+
+P[MOD='on'] -> 'on'
+P[MOD='for'] -> 'for'
+P[MOD='into'] -> 'into'
+P[MOD='with'] -> 'with'
+
+Adj -> 'interesting' | 'five'
+
+PUNC -> '.' | '?'
