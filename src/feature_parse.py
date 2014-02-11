@@ -7,7 +7,7 @@ Created on Jan 29, 2014
 #==============================================================================
 '''
 from __future__ import print_function
-import nltk
+import nltk 
 import os
 import sys
 
@@ -20,6 +20,33 @@ DEBUG = True
 #-----------------------------------Main---------------------------------------
 #==============================================================================
 def main():
+    if len(sys.argv) < 4:
+        print("feature_parse.py requires 3 arguments" 
+               + os.linesep + "(1)grammar file"
+               + os.linesep + "(2)data file"
+               + os.linesep + "(3)result file")
+        sys.exit()
+    
+    grammar_file = "file:" + sys.argv[1]
+    
+    grammar = nltk.data.load(grammar_file)
+    data_file = open(sys.argv[2], 'r')
+    result_file = open(sys.argv[3], 'w')
+    
+    parser = nltk.parse.FeatureEarleyChartParser(grammar)
+    
+    for sentence in data_file.readlines():
+        if not sentence.strip():
+            continue
+        
+        sentence = sentence.strip().split()
+        result_file.write(" ".join(sentence) )
+        parse = parser.nbest_parse(sentence, 1)
+        if parse:
+            result_file.write(parse[0].pprint(margin=500) + os.linesep*2)
+        else:
+            result_file.write(os.linesep)
+    
     print("Hello, World!")
 #==============================================================================    
 #---------------------------------Functions------------------------------------
@@ -38,25 +65,6 @@ def main():
 def test():
     print("Test")
 
-#==============================================================================    
-#----------------------------------Classes-------------------------------------
-#==============================================================================
-##-------------------------------------------------------------------------
-## Class Classname
-##-------------------------------------------------------------------------
-##    Description:        desciription
-##
-##    Arguments:         arguments
-##
-##
-##    Properties:         properties
-##
-##    Calls:                  calls
-##
-##-------------------------------------------------------------------------
-class Classname:
-    def __init__(self):
-        self.x = 0
 
 #==============================================================================    
 #------------------------------------------------------------------------------
